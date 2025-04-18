@@ -1,0 +1,19 @@
+# scripts/parse_vcd.py
+
+from vcdvcd import VCDVCD
+
+# Path to your testbench VCD file
+vcd_path = "../test/waveform.vcd"  # adjust if your path is different
+
+# Load VCD file
+vcd = VCDVCD(vcd_path, signals=["MainProcessor.opcode", 
+                                "MainProcessor.result", 
+                                "MainProcessor.write_data"], 
+             store_tvs=True)
+
+# Display signal values over time
+print("\n=== Signal Values ===")
+for signal in vcd.signals:
+    print(f"\n{signal}")
+    for timestamp, value in vcd[signal]['tv']:
+        print(f"  @{timestamp} -> {value}")
