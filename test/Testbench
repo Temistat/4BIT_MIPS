@@ -1,0 +1,45 @@
+module Testbench;
+
+// Declare Inputs and Outputs
+reg clk;
+reg reset;
+wire [3:0] fib_out; // Output for Fibonacci numbers
+
+// Instantiate the 4-bit MIPS processor (replace this with your actual processor module)
+MainProcessor uut (
+.clk(clk),
+.reset(reset),
+.fib_out(fib_out)
+);
+
+// Clock Generation: 10ns clock period (adjust as necessary for your design)
+always begin
+#5 clk = ~clk; // Toggle clock every 5ns for a 10ns period
+end
+
+// Apply test stimulus
+initial begin
+// Initialize signals
+clk = 0;
+reset = 1; // Apply reset at the start
+
+// Apply reset to initialize the processor
+#10 reset = 0; // De-assert reset after 10ns
+
+// Run the Fibonacci sequence generator logic
+// The processor will automatically start executing the Fibonacci program
+
+// Monitor the output and run the simulation
+// Adjust the #100 time to simulate enough cycles for Fibonacci calculation
+#100; // Run for 100ns, adjust based on your sequence length and clock speed
+
+// Finish the simulation after Fibonacci is generated
+$finish;
+end
+
+// Monitor output: Print Fibonacci output at each time step
+initial begin
+$monitor("Time = %d, Fibonacci Output = %d", $time, fib_out);
+end
+
+endmodule
